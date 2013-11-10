@@ -35,17 +35,18 @@ public class ShopBuyListener implements Listener {
 		Player player = event.getPlayer();
 		ItemStack item = frame.getItem();
 
+		// Make sure that the player has golden nuggets
+		if (!(player.getInventory().contains(Material.GOLD_NUGGET))) {
+			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you don't have enough nuggets to do this!");
+			return;
+		}
+	
 		// Make sure that the player doesn't already have the item they are
 		// trying to buy
 		if (player.getInventory().contains(item)) {
 			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you already have this item!");
 			return;
 
-		}
-		// Make sure that the player has golden nuggets
-		if (!(player.getInventory().contains(Material.GOLD_NUGGET))) {
-			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you don't have enough nuggets to do this!");
-			return;
 		}
 
 		// Make the transaction
