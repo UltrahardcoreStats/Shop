@@ -3,6 +3,7 @@ package com.ttaylorr.uhc.shop.listeners;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -81,6 +82,8 @@ public class ShopBuyListener implements Listener {
 				(quantity == 1 ? name : name + "s") + ChatColor.GREEN + " for " + ChatColor.RED + cost +
 				(cost == 1 ? " " + shortCurrency : " " + shortCurrency + "s"));
 
+		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+		
 	}
 
 }
