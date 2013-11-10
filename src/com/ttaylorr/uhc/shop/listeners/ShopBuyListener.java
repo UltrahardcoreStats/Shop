@@ -10,6 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.ttaylorr.uhc.shop.Shop;
+
 public class ShopBuyListener implements Listener {
 
 	@EventHandler
@@ -25,6 +27,11 @@ public class ShopBuyListener implements Listener {
 		// Define the Item Frame
 		ItemFrame frame = (ItemFrame) event.getRightClicked();
 
+		if(frame.getItem().getType() == Material.AIR) {
+			event.setCancelled(false);
+			return;
+		}
+		
 		// Make sure that the player has the permission to buy it
 		if (!(event.getPlayer().hasPermission("shop.buy"))) return;
 
@@ -35,26 +42,41 @@ public class ShopBuyListener implements Listener {
 		Player player = event.getPlayer();
 		ItemStack item = frame.getItem();
 
+		// Make sure that the user can buy the item
+		if(!(Shop.getValidItems().containsKey(item.getType()))) {
+			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you may not buy this item!");
+			return;
+		}
+		
+		int cost = Shop.getValidItems().get(item.getType()).get("cost");
+		int quantity = Shop.getValidItems().get(item.getType()).get("quantity");
+		boolean multipleAllowed = Shop.getValidItems().get(item.getType()).get("multipleAllowed") == 1;
+		
 		// Make sure that the player has golden nuggets
-		if (!(player.getInventory().contains(Material.GOLD_NUGGET))) {
-			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you don't have enough nuggets to do this!");
+		if (!(player.getInventory().containsAtLeast(new ItemStack(Material.GOLD_NUGGET),cost))) {
+			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you need at least " + ChatColor.GREEN + cost +
+					ChatColor.RED + (cost == 1 ? " nugget" : " nuggets") + " to purchase this!");
 			return;
 		}
 	
 		// Make sure that the player doesn't already have the item they are
 		// trying to buy
-		if (player.getInventory().contains(item)) {
-			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you already have this item!");
-			return;
+		if(!multipleAllowed) {
+			if (player.getInventory().containsAtLeast(new ItemStack(item),1)) {
+				player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you already have this item!");
+				return;
 
+			}			
 		}
 
 		// Make the transaction
-		player.getInventory().addItem(new ItemStack(item.getType(), 1));
-		player.getInventory().removeItem(new ItemStack(Material.GOLD_NUGGET, 1));
+		player.getInventory().addItem(new ItemStack(item.getType(), quantity));
+		player.getInventory().removeItem(new ItemStack(Material.GOLD_NUGGET, cost));
 
-		player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.GREEN + "you bought an " + ChatColor.RED +
-				WordUtils.capitalize(item.getType().name().replace('_', ' ').toLowerCase()) + ChatColor.GREEN + " for one nugget!");
+		String name = WordUtils.capitalize(item.getType().name().replace('_', ' ').toLowerCase());
+		
+		player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.GREEN + "you bought " + ChatColor.RED + quantity + " " +
+				(quantity == 1 ? name : name + "s") + ChatColor.GREEN + " for " + ChatColor.RED + cost + ChatColor.GREEN + (cost == 1 ? " nugget" : " nuggets"));
 
 	}
 

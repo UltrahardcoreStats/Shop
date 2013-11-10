@@ -1,0 +1,8 @@
+# Add items in this format
+# Items not present will not be sold
+
+items:
+    ENDER_PEARL:
+        cost: 1
+        quantity: 1
+        multipleAllowed: false;
