@@ -1,0 +1,7 @@
+name: Shop
+version: 1.0
+main: com.ttaylorr.uhc.shop.Shop
+permissions:
+    shop.buy:
+        description: Enables you to buy from the shop.
+        default: yes
