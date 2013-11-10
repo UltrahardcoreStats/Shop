@@ -1,5 +1,6 @@
 package com.ttaylorr.uhc.shop.listeners;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -12,10 +13,13 @@ public class ShopBuyListener implements Listener {
 
 	@EventHandler
 	public void onPlayerBuy(PlayerInteractEntityEvent event) {
-
+		
 		// Make sure it's an ItemFrame
-		if(!(event.getRightClicked() instanceof ItemFrame)) 
-			return;
+		if(event.getRightClicked() instanceof ItemFrame) {
+			event.setCancelled(true);
+		} else {
+			return;			
+		}
 		
 		// Define the Item Frame
 		ItemFrame frame = (ItemFrame) event.getRightClicked();
@@ -33,16 +37,22 @@ public class ShopBuyListener implements Listener {
 		ItemStack item = frame.getItem();
 
 		// Make sure that the player doesn't already have the item they are trying to buy
-		if(player.getInventory().contains(item))
-			return;
-		
+		if(player.getInventory().contains(item)) {
+			player.sendMessage("[Shop] - " + "you already have this item!");
+			return;		
+			
+		}
 		// Make sure that the player has golden nuggets
-		if(!(player.getInventory().contains(Material.GOLD_NUGGET)))
+		if(!(player.getInventory().contains(Material.GOLD_NUGGET))) {
+			player.sendMessage("[Shop] - " + "you don't have enough nuggets to do this!");
 			return;
+		}
 		
 		// Make the transaction
 		player.getInventory().addItem(new ItemStack(item.getType(), 1));
-		player.getInventory().remove(new ItemStack(Material.GOLD_NUGGET, 1));
+		player.getInventory().removeItem(new ItemStack(Material.GOLD_NUGGET, 1));
+		
+		player.sendMessage("[Shop] - " + "you bought an " + WordUtils.capitalize(item.getType().name().replace('_', ' ').toLowerCase()) + " for one nugget!");
 		
 	}
 	
