@@ -12,6 +12,7 @@ import com.ttaylorr.uhc.shop.listeners.ShopBuyListener;
 public class Shop extends JavaPlugin {
 	
 	private static HashMap<Material, HashMap<String, Integer>> items;
+	private static Material currency;
 	
 	@Override
 	public void onDisable() {
@@ -21,10 +22,13 @@ public class Shop extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		items = new HashMap<Material, HashMap<String, Integer>>();
-
+		
 		saveDefaultConfig();
 		
 		loadItemValues();
+		
+		currency = Material.getMaterial(getConfig().getString("currency"));
+		System.out.println("Currency: " + currency.name());
 		
 		Bukkit.getPluginManager().registerEvents(new ShopBuyListener(), this);
 	}
@@ -47,6 +51,10 @@ public class Shop extends JavaPlugin {
 	
 	public static HashMap<Material, HashMap<String, Integer>> getValidItems() {
 		return items;
+	}
+	
+	public static Material getCurrency() {
+		return currency;
 	}
 	
 }

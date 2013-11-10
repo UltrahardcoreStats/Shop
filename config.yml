@@ -1,6 +1,10 @@
-# Add items in this format
-# Items not present will not be sold
+# Configuration file for Shop
+# Github: http://github.com/UltrahardcoreStats/Shop
 
+# Sets the global currency (see Bukkit's Material class)
+currency: GOLD_NUGGET
+
+# Allowed and disallowed items, add items in this way.
 items:
     ENDER_PEARL:
         cost: 1
