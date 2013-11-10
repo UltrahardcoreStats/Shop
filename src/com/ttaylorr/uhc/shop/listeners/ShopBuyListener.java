@@ -51,13 +51,13 @@ public class ShopBuyListener implements Listener {
 		int cost = Shop.getValidItems().get(item.getType()).get("cost");
 		int quantity = Shop.getValidItems().get(item.getType()).get("quantity");
 		boolean multipleAllowed = Shop.getValidItems().get(item.getType()).get("multipleAllowed") == 1;
-		String shortCurrency = Shop.getCurrency().name();
+		String shortCurrency = Shop.getCurrency().name().replace('_', ' ');
 		shortCurrency = shortCurrency.substring(shortCurrency.indexOf(" ") + 1).toLowerCase();
 		
 		// Make sure that the player has golden nuggets
 		if (!(player.getInventory().containsAtLeast(new ItemStack(Shop.getCurrency()),cost))) {
-			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you need at least " + ChatColor.GREEN + cost +
-					ChatColor.RED + (cost == 1 ? " " + shortCurrency : " " + shortCurrency + "s") + " to purchase this!");
+			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you need at least " + ChatColor.GREEN + cost + 
+					(cost == 1 ? " " + shortCurrency : " " + shortCurrency + "s") + ChatColor.RED + " to purchase this!");
 			return;
 		}
 	
@@ -78,7 +78,7 @@ public class ShopBuyListener implements Listener {
 		String name = WordUtils.capitalize(item.getType().name().replace('_', ' ').toLowerCase());
 		
 		player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.GREEN + "you bought " + ChatColor.RED + quantity + " " +
-				(quantity == 1 ? name : name + "s") + ChatColor.GREEN + " for " + ChatColor.RED + cost + ChatColor.GREEN +
+				(quantity == 1 ? name : name + "s") + ChatColor.GREEN + " for " + ChatColor.RED + cost +
 				(cost == 1 ? " " + shortCurrency : " " + shortCurrency + "s"));
 
 	}
