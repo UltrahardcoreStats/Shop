@@ -1,7 +1,15 @@
 name: Shop
 version: 1.0
 main: com.ttaylorr.uhc.shop.Shop
+commands:
+    shop:
+        description: General purpose command for Shop.
+        permission: shop.reload
+        usage: /shop <command>
 permissions:
     shop.buy:
         description: Enables you to buy from the shop.
         default: yes
+    shop.reload:
+        description: Enables you to reload the shop configuration.
+        default: op
