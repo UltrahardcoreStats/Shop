@@ -24,13 +24,20 @@ public class Shop extends JavaPlugin {
 		items = new HashMap<Material, HashMap<String, Integer>>();
 		
 		saveDefaultConfig();
-		
-		loadItemValues();
-		
-		currency = Material.getMaterial(getConfig().getString("currency"));
-		System.out.println("Currency: " + currency.name());
-		
+				
 		Bukkit.getPluginManager().registerEvents(new ShopBuyListener(), this);
+	
+		getCommand("shop").setExecutor(new ShopCommand(this));
+	}
+	
+	public boolean reloadConfigCommand() {
+		try {
+			loadItemValues();
+			currency = Material.getMaterial(getConfig().getString("currency"));
+		} catch(Exception e) {
+			return false;
+		}
+		return true;
 	}
 	
 	private void loadItemValues() {
