@@ -4,12 +4,21 @@ main: com.ttaylorr.uhc.shop.Shop
 commands:
     shop:
         description: General purpose command for Shop.
-        permission: shop.reload
+        permission: shop.cmd.*
         usage: /shop <command>
 permissions:
     shop.buy:
         description: Enables you to buy from the shop.
         default: yes
-    shop.reload:
+    shop.cmd.*:
+        description: Enables you to access all the shop commands.
+        default: op
+        children:
+            shop.cmd.check: true
+            shop.cmd.reload: true
+    shop.cmd.check:
+        description: Enables you to check the status of an item.
+        default: op
+    shop.cmd.reload:
         description: Enables you to reload the shop configuration.
         default: op

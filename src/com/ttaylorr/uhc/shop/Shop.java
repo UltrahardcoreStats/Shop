@@ -24,7 +24,9 @@ public class Shop extends JavaPlugin {
 		items = new HashMap<Material, HashMap<String, Integer>>();
 		
 		saveDefaultConfig();
-				
+		
+		reloadConfigCommand();
+		
 		Bukkit.getPluginManager().registerEvents(new ShopBuyListener(), this);
 	
 		getCommand("shop").setExecutor(new ShopCommand(this));
