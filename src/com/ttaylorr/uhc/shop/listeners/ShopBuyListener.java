@@ -4,12 +4,15 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.Potion;
 
 import com.ttaylorr.uhc.shop.Shop;
 
@@ -42,7 +45,17 @@ public class ShopBuyListener implements Listener {
 		// Define variables
 		Player player = event.getPlayer();
 		ItemStack item = frame.getItem();
-
+		ItemStack toGive = frame.getItem();
+		
+		//hacky
+		ItemMeta m = toGive.getItemMeta();
+		m.setDisplayName(frame.getItem().getItemMeta().getDisplayName());
+		m.setLore(frame.getItem().getItemMeta().getLore());
+		
+		for(Enchantment e: frame.getItem().getItemMeta().getEnchants().keySet()) {
+			m.addEnchant(e, item.getEnchantmentLevel(e), true);
+		}
+				
 		// Make sure that the user can buy the item
 		if(!(Shop.getValidItems().containsKey(item.getType()))) {
 			player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you may not buy this item!");
@@ -64,8 +77,11 @@ public class ShopBuyListener implements Listener {
 	
 		// Make sure that the player doesn't already have the item they are
 		// trying to buy
+		
 		if(!multipleAllowed) {
-			if (player.getInventory().containsAtLeast(new ItemStack(item),1)) {
+			item.setItemMeta(m);
+			
+			if (player.getInventory().contains(item)) {
 				player.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.RED + "you already have this item!");
 				return;
 
@@ -73,7 +89,14 @@ public class ShopBuyListener implements Listener {
 		}
 
 		// Make the transaction
-		player.getInventory().addItem(new ItemStack(item.getType(), quantity));
+		if(item.getType() != Material.POTION) {
+			ItemStack i = new ItemStack(item.getType(), quantity);
+			i.setItemMeta(m);
+			
+			player.getInventory().addItem(i);
+		} else {
+			player.getInventory().addItem(Potion.fromItemStack(item).toItemStack(quantity));
+		}
 		player.getInventory().removeItem(new ItemStack(Shop.getCurrency(), cost));
 
 		String name = WordUtils.capitalize(item.getType().name().replace('_', ' ').toLowerCase());
