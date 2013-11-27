@@ -13,8 +13,10 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.Potion;
+import org.bukkit.scoreboard.Score;
 
 import com.ttaylorr.uhc.shop.Shop;
+import com.ttaylorr.uhc.shop.util.ShopUtil;
 
 public class ShopBuyListener implements Listener {
 
@@ -105,6 +107,10 @@ public class ShopBuyListener implements Listener {
 				(quantity == 1 ? name : name + "s") + ChatColor.GREEN + " for " + ChatColor.RED + cost +
 				(cost == 1 ? " " + shortCurrency : " " + shortCurrency + "s"));
 
+		Score score = Shop.getObjective().getScore(player);
+		score.setScore(ShopUtil.getCurrencyFor(player));
+//		score.setScore(score.getScore() - (quantity * cost));
+		
 		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
 		
 	}
