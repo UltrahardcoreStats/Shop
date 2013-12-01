@@ -30,7 +30,14 @@ public class PlayerDeathListener implements Listener {
 		}
 
 		Score score = Shop.getObjective().getScore(killer);
-		score.setScore(ShopUtil.getCurrencyFor(killer));
+		
+		int amount = ShopUtil.getCurrencyFor(killer);
+		
+		if(amount != 0) {
+			score.setScore(amount);			
+		} else {
+			Shop.getScoreboard().resetScores(killer);
+		}
 
 		Bukkit.getServer().getPluginManager().callEvent(new PlayerRecieveCoinEvent(player, killer));
 
