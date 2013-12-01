@@ -15,10 +15,13 @@ public class PlayerDeathListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
+		if(!(event.getEntity().getKiller() instanceof Player))
+			return;
+		
 		Player player = event.getEntity();
 		Player killer = event.getEntity().getKiller();
 		
-		player.getInventory().addItem(new ItemStack(Shop.getCurrency(), Shop.getAmountPerDeath()));
+		killer.getInventory().addItem(new ItemStack(Shop.getCurrency(), Shop.getAmountPerDeath()));
 		
 		Score score = Shop.getObjective().getScore(player);
 		score.setScore(score.getScore() + 1);
