@@ -52,10 +52,14 @@ public class ShopCommand implements CommandExecutor {
 
 			if (!(sender.hasPermission("shop.cmd.update"))) return false;
 
-			Shop.getScoreboard().resetScores(Bukkit.getPlayer(args[1]));
 			Score score = Shop.getObjective().getScore(Bukkit.getPlayer(args[1]));
+			int amount = ShopUtil.getCurrencyFor(Bukkit.getPlayer(args[1]));
 			
-			score.setScore(ShopUtil.getCurrencyFor(Bukkit.getPlayer(args[1])));
+			if(amount != 0) {
+				score.setScore(ShopUtil.getCurrencyFor(Bukkit.getPlayer(args[1])));				
+			} else {
+				Shop.getScoreboard().resetScores(Bukkit.getPlayer(args[1]));				
+			}
 			
 			sender.sendMessage(ChatColor.AQUA + "[Shop] - " + ChatColor.GREEN + "updated score for " + ChatColor.RED + args[1]);
 			

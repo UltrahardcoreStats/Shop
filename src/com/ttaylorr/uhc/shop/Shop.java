@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -77,9 +78,19 @@ public class Shop extends JavaPlugin {
 			objective.setDisplaySlot(null);
 		}
 
+		// Clear out all scores from the board
+		for(OfflinePlayer op : board.getPlayers()) {
+			board.resetScores(op);
+		}
+		
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			Score score = objective.getScore(p);
-			score.setScore(ShopUtil.getCurrencyFor(p));
+			int amount = ShopUtil.getCurrencyFor(p);
+			
+			if(amount != 0) {
+				score.setScore(ShopUtil.getCurrencyFor(p));				
+			}
+			
 			p.setScoreboard(board);
 		}
 	}
