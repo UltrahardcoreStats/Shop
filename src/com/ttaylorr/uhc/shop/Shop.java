@@ -28,6 +28,7 @@ public class Shop extends JavaPlugin {
 	private static Scoreboard board;
 	private static Objective objective;
 	private static boolean sidebarEnabled;
+	private static boolean addToInventory;
 
 	@Override
 	public void onDisable() {
@@ -54,7 +55,8 @@ public class Shop extends JavaPlugin {
 			loadItemValues();
 			currency = Material.getMaterial(getConfig().getString("currency"));
 			sidebarEnabled = getConfig().getBoolean("sidebar");
-	
+			addToInventory = getConfig().getBoolean("addToInventory");
+			
 			setupScoreboard();
 		} catch (Exception e) {
 			return false;
@@ -120,5 +122,9 @@ public class Shop extends JavaPlugin {
 
 	public static boolean getSidebarEnabled() {
 		return sidebarEnabled;
+	}
+	
+	public static boolean getAddToInventory() {
+		return addToInventory;
 	}
 }

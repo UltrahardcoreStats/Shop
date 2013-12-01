@@ -1,12 +1,19 @@
 # Configuration file for Shop
 # Github: http://github.com/UltrahardcoreStats/Shop
 
-# Sets the global currency (see Bukkit's Material class)
+# Sets the global currency and amount to drop (see Bukkit's Material class)
 currency: GOLD_NUGGET
+amount: 1
+
+sidebar: true
+
+# If true: automatically add the nugget to the killer's inventory
+# if false: drop the nugget naturally in the world 
+addToInventory: true
 
 # Allowed and disallowed items, add items in this way.
 items:
     ENDER_PEARL:
         cost: 1
         quantity: 1
-        multipleAllowed: false;
+        multipleAllowed: false
