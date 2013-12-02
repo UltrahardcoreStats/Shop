@@ -57,7 +57,7 @@ public class Shop extends JavaPlugin {
 			currency = Material.getMaterial(getConfig().getString("currency"));
 			sidebarEnabled = getConfig().getBoolean("sidebar");
 			addToInventory = getConfig().getBoolean("addToInventory");
-			
+
 			setupScoreboard();
 		} catch (Exception e) {
 			return false;
@@ -71,27 +71,29 @@ public class Shop extends JavaPlugin {
 
 		objective = board.registerNewObjective("Coins", "dummy");
 		objective.setDisplayName(ChatColor.BLUE + "" + ChatColor.BOLD + "Nuggets");
-		
-		if(sidebarEnabled) {			
+
+		if (sidebarEnabled) {
 			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		} else {
 			objective.setDisplaySlot(null);
 		}
 
 		// Clear out all scores from the board
-		for(OfflinePlayer op : board.getPlayers()) {
+		for (OfflinePlayer op : board.getPlayers()) {
 			board.resetScores(op);
 		}
-		
+
 		for (Player p : Bukkit.getOnlinePlayers()) {
+			p.setScoreboard(board);
+
 			Score score = objective.getScore(p);
 			int amount = ShopUtil.getCurrencyFor(p);
-			
-			if(amount != 0) {
-				score.setScore(ShopUtil.getCurrencyFor(p));				
+
+			if (amount != 0) {
+				score.setScore(amount);
+			} else {
+				board.resetScores(p);
 			}
-			
-			p.setScoreboard(board);
 		}
 	}
 
@@ -134,7 +136,7 @@ public class Shop extends JavaPlugin {
 	public static boolean getSidebarEnabled() {
 		return sidebarEnabled;
 	}
-	
+
 	public static boolean getAddToInventory() {
 		return addToInventory;
 	}
