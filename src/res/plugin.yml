@@ -1,6 +1,7 @@
-name: Shop
-version: 1.0
-main: com.ttaylorr.uhc.shop.Shop
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+main: ${plugin.mainClass}
 commands:
     shop:
         description: General purpose command for Shop.
