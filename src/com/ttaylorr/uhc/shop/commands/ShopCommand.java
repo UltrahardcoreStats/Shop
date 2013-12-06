@@ -20,7 +20,6 @@ public class ShopCommand implements CommandExecutor {
 		this.plugin = plugin;
 	}
 
-	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) return false;
 
