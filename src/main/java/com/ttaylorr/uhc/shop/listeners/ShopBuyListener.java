@@ -110,9 +110,14 @@ public class ShopBuyListener implements Listener {
 				(cost == 1 ? " " + shortCurrency : " " + shortCurrency + "s"));
 
 		Score score = Shop.getObjective().getScore(player);
-		score.setScore(ShopUtil.getCurrencyFor(player));
-//		score.setScore(score.getScore() - (quantity * cost));
-		
+        int amount = ShopUtil.getCurrencyFor(player);
+
+        if (amount != 0) {
+            score.setScore(amount);
+        } else {
+            Shop.getScoreboard().resetScores(player);
+        }
+
 		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
 		
 	}
