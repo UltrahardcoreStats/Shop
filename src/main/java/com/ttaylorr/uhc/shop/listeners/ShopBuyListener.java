@@ -97,7 +97,9 @@ public class ShopBuyListener implements Listener {
 			
 			player.getInventory().addItem(i);
 		} else {
-			player.getInventory().addItem(Potion.fromItemStack(item).toItemStack(quantity));
+            for (int i = 0; i < quantity; i++) {
+                player.getInventory().addItem(item);
+            }
 		}
 		player.getInventory().removeItem(new ItemStack(Shop.getCurrency(), cost));
 
