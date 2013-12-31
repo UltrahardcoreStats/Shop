@@ -55,6 +55,7 @@ public class Shop extends JavaPlugin {
 		try {
 			loadItemValues();
 			currency = Material.getMaterial(getConfig().getString("currency"));
+            amountPerDeath = getConfig().getInt("amount", 1);
 			sidebarEnabled = getConfig().getBoolean("sidebar");
 			addToInventory = getConfig().getBoolean("addToInventory");
 
