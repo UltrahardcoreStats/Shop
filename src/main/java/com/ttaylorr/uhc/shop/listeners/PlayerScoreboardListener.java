@@ -38,7 +38,7 @@ public class PlayerScoreboardListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked()) instanceof Player) {
+        if (!(event.getWhoClicked() instanceof Player)) {
             return;
         }
 
@@ -51,6 +51,6 @@ public class PlayerScoreboardListener implements Listener {
             score.setScore(amount);
         }
 
-        event.getPlayer().setScoreboard(Shop.getScoreboard());
+        player.setScoreboard(Shop.getScoreboard());
     }
 }
