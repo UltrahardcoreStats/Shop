@@ -1,0 +1,34 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+main: ${plugin.mainClass}
+commands:
+    shop:
+        description: General purpose command for Shop.
+        permission: shop.cmd.*
+        usage: /shop <command>
+permissions:
+    shop.buy:
+        description: Enables you to buy from the shop.
+        default: yes
+    shop.cmd.*:
+        description: Enables you to access all the shop commands.
+        default: op
+        children:
+            shop.cmd.check: true
+            shop.cmd.reload: true
+            shop.cmd.update: true
+    shop.cmd.check:
+        description: Enables you to check the status of an item.
+        default: op
+    shop.cmd.reload:
+        description: Enables you to reload the shop configuration.
+        default: op
+    shop.cmd.update:
+        description: Update a specific player's score in the scoreboard
+        default: op
+        children:
+            shop.cmd.update.*: true
+    shop.cmd.update.*:
+        description: Update all player's score in the scoreboard
+        default: op
