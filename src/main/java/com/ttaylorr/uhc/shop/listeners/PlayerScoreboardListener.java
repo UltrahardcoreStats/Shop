@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scoreboard.Score;
 
 import com.ttaylorr.uhc.shop.Shop;
@@ -35,6 +36,20 @@ public class PlayerScoreboardListener implements Listener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		Shop.getScoreboard().resetScores(event.getPlayer());
 	}
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+
+        Score score = Shop.getObjective().getScore(player);
+        int amount = ShopUtil.getCurrencyFor(player);
+
+        if (amount != 0) {
+            score.setScore(amount);
+        }
+
+        player.setScoreboard(Shop.getScoreboard());
+    }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
