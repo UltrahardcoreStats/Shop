@@ -2,6 +2,7 @@ package com.ttaylorr.uhc.shop;
 
 import java.util.HashMap;
 
+import com.ttaylorr.uhc.shop.events.ItemFrameProtection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -46,9 +47,10 @@ public class Shop extends JavaPlugin {
 
 		Bukkit.getPluginManager().registerEvents(new ShopBuyListener(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerDeathListener(), this);
-		Bukkit.getPluginManager().registerEvents(new PlayerScoreboardListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerScoreboardListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ItemFrameProtection(), this);
 
-		getCommand("shop").setExecutor(new ShopCommand(this));
+        getCommand("shop").setExecutor(new ShopCommand(this));
 	}
 
 	public boolean reloadConfigCommand() {
